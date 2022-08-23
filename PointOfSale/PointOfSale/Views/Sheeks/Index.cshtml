@@ -1,0 +1,69 @@
+﻿@model IEnumerable<PointOfSale.Models.Sheek>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p>
+    <a asp-action="Create" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i>Add New Guest</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GuestName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model=>model.HaveData)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+    if (item.HaveData == true)
+    {
+        <tr>
+            <td>
+                <a style="text-decoration:none;" asp-action="ViewSheek" asp-route-id="@item.Id" asp-controller="Sheeks">
+                    @Html.DisplayFor(modelItem => item.GuestName)
+                </a>
+            </td>
+            <td>
+                <i style="color: lawngreen;" class="fa fa-check fa-2x" aria-hidden="true"></i>
+            </td>
+            <td>
+                <form method="post" asp-action="Delete"asp-route-id="@item.Id" asp-controller="Sheeks">
+                    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.Id"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you Sure you want to delete this Guest')" ><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <td>
+                <a style="text-decoration:none;" asp-action="ViewSheek" asp-route-id="@item.Id" asp-controller="Sheeks">
+                    @Html.DisplayFor(modelItem => item.GuestName)
+                </a>
+            </td>
+            <td>
+                @item.HaveData
+            </td>
+            <td>
+                <form method="post" asp-action="Delete" asp-route-id="@item.Id">
+                    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.Id"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>
+                    <button type="submit"  class="btn btn-danger"onclick="return confirm('Are you Sure you want to delete this Guest')"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                </form>
+              
+            </td>
+        </tr>
+    }
+
+}
+    </tbody>
+</table>

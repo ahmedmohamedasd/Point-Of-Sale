@@ -1,0 +1,54 @@
+﻿@model PointOfSale.ViewModel.BarContentViewModel
+@{
+    ViewData["Title"] = "Content";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+   
+}
+
+<h1 style="text-align:center;">@ViewBag.ItemName</h1>
+
+<form method="post" asp-action="AddToContent">
+    <input type="hidden" asp-for="contentId.BarId" />
+    <label asp-for="contentId.ContentId" class="control-label"></label>
+    <div class="row">
+        <div class="form-group col-4">
+            <select asp-for="contentId.ContentId" class="form-control" asp-items="ViewBag.ContentId"></select>
+        </div>
+        <div class="form-group col-4">
+            <button class="btn btn-success" type="submit">Add</button>
+
+        </div>
+    </div>
+    
+</form>
+<hr />
+@if (Model.ContentList.Any()) {
+    <h3>Content Items</h3>
+    <div class="row">
+
+        @foreach (var item in Model.ContentList)
+        {
+        <ul class="list-group col-6">
+            <li class="list-group-item">
+                <form method="post" asp-action="DeleteContent" asp-route-id="@item.BarId" asp-route-contentId="@item.ContentId">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you Sure You want too delete this Product')">Delete</button>
+                    @item.BarItem2.Name
+                </form>
+            </li>
+        </ul>
+                }
+            
+        </div>
+
+}
+else {
+<div class="display-2">
+    No Item in Content
+</div>
+
+}
+<br />
+<a asp-action="Index" asp-controller="BarItems" class="btn btn-outline-warning">Back to List</a>
+
+
+

@@ -1,0 +1,117 @@
+﻿@model IEnumerable<PointOfSale.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_CartLayout.cshtml";
+    ViewBag.ReciptDate = DateTime.Now;
+}
+
+<form asp-action="SearchOrder">
+    <div class="card w-auto mb-3 card-4">
+        <div class="card-body">
+            <h5 class="card-title">Search With Date</h5>
+            <div class="row">
+                <div class="col-6">
+                    <input type="date" name="StartDate" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-outline-success col-3">
+                    <i class="fa fa-search" aria-hidden="true"></i>Search
+                </button>
+            </div>
+            <br />
+               
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <h3 class="col-9"> Statistics Last Orders </h3>
+    <a class="btn btn-primary col-3 " asp-route-EndDate="@ViewBag.ReciptDate" asp-route-StartDate="@ViewBag.ReciptDate" asp-action="DailyReceipt"><i class="fa fa-tasks" aria-hidden="true"></i>Daily Receipt</a>
+</div>
+<br />
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        List of Items
+    </div>
+    <div class="card-body">
+        <table class="table" id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th> #Order </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Quantity)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.DateOfReceipt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsFree)
+                    </th>
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+
+                    <td>
+                        @item.DateOfReceipt.ToString("MM/dd/yyyy h:mm tt")
+                    </td>
+
+                    @if (item.IsFree)
+                    {
+                        <td> Yes </td>
+                    }
+                    else
+                    {
+                        <td> No </td>
+                    }
+
+
+                    <td>
+
+                        <form method="post" asp-action="Delete" asp-controller="CartStatistics" asp-route-id="@item.Id">
+                            <a asp-action="Update" asp-controller="Cart" class="btn btn-primary" asp-route-id="@item.Id">Edit</a>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are You Sure You want to Delete this Order : @item.ProductName')">
+                                Delete
+                            </button>
+                        </form>
+
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+   @* <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>*@
+
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="~/lib/datatables-simple-demo.js"></script>
+}

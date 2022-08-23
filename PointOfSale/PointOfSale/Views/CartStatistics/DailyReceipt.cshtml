@@ -1,0 +1,143 @@
+﻿@model PointOfSale.Models.DailyReportViewModel
+
+@{
+    ViewData["Title"] = "DailyReceipt";
+    Layout = "~/Views/Shared/_CartLayout.cshtml";
+
+}
+
+<form asp-action="DailyReceipt" name="MyForm" onsubmit="return validateForm()">
+    <div class="card w-auto mb-3 card-4">
+        <div class="card-body">
+            <h5 class="card-title">Search in Specific Date</h5>
+            <div class="row">
+                <div class="col-6">
+                    <label>Start Date</label>
+                    <input type="date" name="StartDate" class="form-control" />
+                </div>
+                <div class="col-6">
+                    <label>End Date</label>
+                    <input type="date" name="EndDate" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-outline-success col-3">
+                <i class="fa fa-search" aria-hidden="true"></i>Search
+            </button>
+        </div>
+    </div>
+</form>
+
+<h4 style="text-align:left;float:left;">Daily Receipt On Date</h4>
+<p style="text-align: right; float: right; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">(@ViewBag.ReciptDate)</p>
+<hr style="clear:both;" />
+@if (!Model.DailyReports.Any() && !Model.FreeDailyReports.Any())
+{
+    <p class="display-4">No Receipt in this Date</p>
+}
+else
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Sub Total
+                </th>
+                <th>
+                    Is Free
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DailyReports)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price) LE
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sub_Total) LE
+                    </td>
+                    <td>
+                        No
+                    </td>
+
+
+                </tr>
+            }
+            @foreach (var item in Model.FreeDailyReports)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price) LE
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sub_Total) LE
+                    </td>
+                    <td>
+                        Free
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <p><span style="font-weight:bold"> Total Amount is :</span> @Model.TotalAmount <span style="font:italic">LE</span></p>
+    <p><span style="font-weight:bold"> Total Quantity  : </span>@Model.TotalQuantity</p>
+    <p><span style="font-weight:bold"> Total Free is  :</span> @Model.TotalFreeQuantity</p>
+    <p><span style="font-weight:bold"> Total Item in Bar :</span> @ViewBag.GrandTotal </p>
+    
+    <a class="btn btn-success" id="PrintDailyReceipt" asp-controller="CartStatistics" asp-action="PrintDailyReceipt"><i class="fa fa-print" aria-hidden="true"></i>Print Daily Receipt</a>
+
+}
+
+@section Scripts {
+
+    <script>
+        document.getElementById("PrintDailyReceipt").onclick = function () {
+            this.disabled = true;
+        }
+        function validateForm() {
+            let startDate = document.forms["MyForm"]["StartDate"].value;
+            let endDate = document.forms["MyForm"]["EndDate"].value;
+            if (startDate == "") {
+                alert("Start Date Must has Value");
+                return false
+            } if (endDate == "") {
+                alert("End Date Must has Value");
+                return false
+            }
+            if (startDate > endDate) {
+                alert("End Date must be greater than Start Date");
+                return false
+            }
+
+        }
+
+    </script>
+}

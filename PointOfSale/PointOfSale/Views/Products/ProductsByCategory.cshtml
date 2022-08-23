@@ -1,0 +1,85 @@
+﻿@model PointOfSale.Models.ViewModel.PaginatedList<BarItem>
+@{
+    ViewData["Title"] = "Products";
+    Layout = "~/Views/Shared/_CartLayout.cshtml";
+}
+@if (!Model.Any())
+{
+    <h4 class="display-4 pb-5">@ViewBag.CategoryName Product</h4>
+    <h3 class="display-5 pb-5">No Item in this category</h3>
+
+}
+else
+{
+    ViewBag.Id = ViewBag.CategoryId;
+    <h4 class="pb-5">@ViewBag.CategoryName</h4>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-2">
+                
+                <img src="~/images/@item.ImagePath" class="img-fluid" style="width:100px; height:100px ; border-radius:100%" alt="" />
+                @if (item.Name.Length > 9 && !item.Name.Contains(" "))
+                {
+                    var name = item.Name.Substring(0, 9);
+                    <h6>@name</h6>
+                }
+                else
+                {
+                    <h6>@item.Name</h6>
+                }
+                <p>@item.Price <span style="font-family:italic; font-style:italic">LE</span></p>
+                <p>
+                    <a asp-controller="Cart" asp-action="Add" asp-route-id="@item.Id" data-id="@item.Id" class="btn btn-success addtocart">Add</a>
+                </p>
+            </div>
+        }
+
+    </div>
+
+
+}
+
+
+
+@{
+    var previousDisabled = !Model.PreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.NextPage ? "disabled" : "";
+}
+<a asp-action="ProductsByCategory" asp-route-id="@ViewBag.Id" asp-route-p="@(Model.PageIndex - 1)" class="btn btn-info @previousDisabled">Previous</a>
+<a asp-action="ProductsByCategory" asp-route-id="@ViewBag.Id" asp-route-p="@(Model.PageIndex + 1)" class="btn btn-info @nextDisabled">Next</a>
+
+@section Scripts{
+    <script>
+        $("a.addtocart").click(function (e) {
+            e.preventDefault();
+
+            let ajaxDiv = $(this).parent().parent().find("div.ajaxbg");
+            ajaxDiv.removeClass("d-none");
+
+            let id = $(this).data("id");
+
+            $.get('/cart/add/' + id, {}, function (data) {
+                $("div.smallCart").html(data);
+                ajaxDiv.find("img").addClass("d-none");
+                ajaxDiv.find("p").removeClass("d-none");
+                setTimeout(() => {
+                    ajaxDiv.animate({ opacity: 0 }, function () {
+                        $(this).addClass("d-none").fadeTo(.1, 1);
+                        $(this).find("img").removeClass("d-none");
+                        $(this).find("p").addClass("d-none");
+
+                    });
+                });
+            });
+        });
+    </script>
+}
+@*<div class="ajaxbg d-none">
+    <img src="~/Images/ajax-loader.gif" />
+    <p class="lead alert alert-success text-center d-none">
+        Product  added!
+    </p>
+</div>*@
+
+

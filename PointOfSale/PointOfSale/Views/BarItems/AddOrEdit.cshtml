@@ -1,0 +1,115 @@
+﻿@model PointOfSale.ViewModel.BarContentViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" asp-action="AddOrEdit" onsubmit="return jQueryAddContent(this);" autocomplete="off">
+            <input type="hidden" asp-for="contentId.BarId" />
+            <label asp-for="contentId.ContentId" class="control-label"></label>
+            <div class="row">
+                <div class="form-group col-8">
+                    <select asp-for="contentId.ContentId" class="form-control" asp-items="ViewBag.ContentId"></select>
+                </div>
+                <div class="form-group col-4">
+                    <button class="btn btn-success" type="submit">Add</button>
+                </div>
+            </div>
+        </form>
+        <hr />
+        @if (Model.ContentList.Any())
+        {
+            <h3>Content Items</h3>
+            <ul class="list-group col-12">
+                @foreach (var item in Model.ContentList)
+                {
+                    <li class="list-group-item">
+                        <form method="post" asp-action="DeleteContent" asp-route-id="@item.BarId" asp-route-contentId="@item.ContentId">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you Sure You want too delete this Product')">Delete</button>
+                            @item.BarItem2.Name
+                        </form>
+                    </li>
+
+                }
+            </ul>
+        }
+        else
+        {
+            <div class="display-4">
+                No Item in Content
+            </div>
+
+        }
+        @*<form asp-action="AddOrEdit" asp-route-id="@Model.TransactionId" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TransactionId" />
+            <input type="hidden" asp-for="Date" />
+            <div class="form-group">
+                <label asp-for="AccountNumber" class="control-label"></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            #
+                        </div>
+                    </div>
+                    <input asp-for="AccountNumber" class="form-control" />
+                </div>
+
+                <span asp-validation-for="AccountNumber" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="BeneficiaryName" class="control-label"></label>
+                        <input asp-for="BeneficiaryName" class="form-control" />
+                        <span asp-validation-for="BeneficiaryName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+
+                    <div class="form-group">
+                        <label asp-for="BankName" class="control-label"></label>
+                        <input asp-for="BankName" class="form-control" />
+                        <span asp-validation-for="BankName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="SwiftCode" class="control-label"></label>
+                        <input asp-for="SwiftCode" class="form-control" />
+                        <span asp-validation-for="SwiftCode" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Amount" class="control-label"></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                            </div>
+                            <input asp-for="Amount" class="form-control" />
+
+                        </div>
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary btn btn-block" />
+            </div>
+        </form>*@
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

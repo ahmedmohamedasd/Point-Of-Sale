@@ -1,0 +1,117 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="~/Images/ilcampo.ico" />
+    <title>@ViewData["Title"] - IlCampo</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;1,100;1,300&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet" />
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <img src="~/Images/ilcampo.jpg" height="40" />
+                <a class="navbar-brand" asp-area="" asp-controller="Products" asp-action="Index">IlCampo</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1 myDIV">
+                        @if (signInManager.IsSignedIn(User) && User.HasClaim("UsersShow", "true"))
+                        {
+                            <li class="nav-item myDIV-link">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Users">Users</a>
+                            </li>
+                        }
+                        @if (signInManager.IsSignedIn(User) && User.HasClaim("RoleShow", "true"))
+                        {
+                            <li class="nav-item myDIV-link">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Roles"> Roles</a>
+                            </li>
+                        }
+                        <li class="nav-item myDIV-link">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
+                        </li>
+                        <li class="nav-item myDIV-link">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="BarItems" asp-action="Index">Bar Items</a>
+                        </li>
+                        <li class="nav-item myDIV-link">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Sheeks" asp-action="Index">Sheek</a>
+                        </li>
+                        <li class="nav-item myDIV-link ">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Cart</a>
+                        </li>
+                        <li class="nav-item myDIV-link">
+                            <a class="nav-link text-dark " asp-area="" asp-controller="CartStatistics" asp-action="Index">Cart Statistics</a>
+                        </li>
+                        <li class="nav-item myDIV-link">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="OrdersStocks" asp-action="Index">Stock</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div class="row">
+                <div class="col-3">
+                    @await Component.InvokeAsync("BarCategories")
+                </div>
+                <div class="col-9">
+                    @RenderBody()
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="form-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy;All Rights reserved 2022-IlCampo
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @*<script>
+        var header = document.getElementById("myDIV");
+        var btns = header.getElementsByClassName("nav-item");
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", function () {
+                var current = document.getElementsByClassName("activate");
+                current[0].className = current[0].className.replace(" activate", "");
+                this.className += " activate";
+            });
+        }
+    </script>*@
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,82 @@
+﻿@model PointOfSale.Models.ViewModel.AllRolesViewModel
+@{
+    ViewData["Title"] = "AddUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title">Add user </h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form form-horizontal" asp-action="AddUser">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+
+                        <div class="form-group row">
+                            <label asp-for="@Model.addUserViewModel.Name" class="col-md-3 label-control"></label>
+                            <div class="col-md-9">
+                                <input asp-for="@Model.addUserViewModel.Name" class="form-control" />
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="@Model.addUserViewModel.Email" class="col-md-3 label-control"></label>
+                            <div class="col-md-9">
+                                <input asp-for="@Model.addUserViewModel.Email" class="form-control" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="@Model.addUserViewModel.Password" class="col-md-3 label-control"></label>
+                            <div class="col-md-9">
+                                <input asp-for="@Model.addUserViewModel.Password" class="form-control" />
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="@Model.addUserViewModel.ConfirmPassword" class="col-md-3 label-control"></label>
+                            <div class="col-md-9">
+                                <input asp-for="@Model.addUserViewModel.ConfirmPassword" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control">Group Name </label>
+                            <div class="col-md-9">
+                                @Html.DropDownListFor(c => c.addUserViewModel.RoleId, new SelectList(Model.allRoles, "Id", "Name"), new { @class = "form-control" })
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Add" class="btn btn-primary" />
+                            <a class="btn btn-danger" asp-action="Users" asp-controller="Admin">Cancel</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+

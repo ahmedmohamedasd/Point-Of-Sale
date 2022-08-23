@@ -1,0 +1,49 @@
+﻿@model PointOfSale.Models.ViewModel.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-5">
+        <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-header">
+                <h3 class="text-center font-weight-light my-4">Login</h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="Login" asp-controller="Accounting">
+                    <div class="text-danger" asp-validation-summary="All"></div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="inputEmail" asp-for="@Model.Email" type="email" placeholder="name@example.com" />
+                        <label for="inputEmail">Email address</label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="inputPassword" type="password" asp-for="@Model.Password" placeholder="Password" />
+                        <label for="inputPassword">Password</label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" asp-for="@Model.RememberMe" id="inputRememberPassword" type="checkbox"  />
+                        <label class="form-check-label"  for="inputRememberPassword">Remember Me</label>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+
+                       <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    
+}
+
+

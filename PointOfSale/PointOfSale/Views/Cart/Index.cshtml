@@ -1,0 +1,73 @@
+﻿@model CartViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_CartLayout.cshtml";
+}
+@if (Model.CartItems.Count > 0)
+{
+
+    <h3>Cart OverView</h3>
+    <table class="table">
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th></th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+        @foreach (var item in Model.CartItems)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.Quantity</td>
+                <td>
+                    <a asp-action="Add" asp-route-id="@item.ProductId" class="btn btn-sm btn-primary">+</a>
+                    <a asp-action="Decrease" asp-route-id="@item.ProductId" class="btn btn-sm btn-success">-</a>
+                    <a asp-action="Remove" asp-route-id="@item.ProductId" class="btn btn-sm btn-danger">Remove</a>
+                </td>
+                <td>@item.Price</td>
+                <td>@Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x => x.Price * x.Quantity) <span style="font-style:italic">LE</span></td>
+            </tr>
+        }
+        <tr>
+            <td class="text-right" colspan="4">Grand Total : @Model.GrandTotal <span style="font-family:italic">LE</span> </td>
+        </tr>
+
+    </table>
+    <hr />
+    <form action="Save">
+        <div class="row">
+            <div class=" form-group col-3">
+                <div class="custom-control custom-checkbox checkbox-xl">
+                    <input type="checkbox" name="IsFree" asp-for="@Model.IsFree" class="custom-control-input" id="checkbox-3">
+                    <label class="custom-control-label" for="checkbox-3">IS Free</label>
+                </div>
+            </div>
+            <div class="form-group col-3">
+                <label class="col-form-label">Date Of Receipt</label>
+            </div>
+            <div class="form-group col-6">
+                <input type="datetime-local" name="Rdate" asp-for="@Model.Date" class="form-control" />
+            </div>
+
+
+        </div>
+        <div class="text-right" colspan="4">
+            <a asp-action="AssigntoGuest" asp-controller="Sheeks" class="btn btn-primary">Assign To Guest</a>
+            <a asp-action="Clear" class="btn btn-danger"><i class="fa fa-eraser" aria-hidden="true"></i> Clear Cart</a>
+            <a asp-action="PrintReceipt" class="btn btn-success"><i class="fa fa-print" aria-hidden="true"></i>Print Recipt</a>
+            <button type="submit" asp-action="Save" class="btn btn-primary"><i class="fa fa-bookmark" aria-hidden="true"></i>Save</button>
+        </div>
+        
+
+    </form>
+}
+else
+{
+    <h3 class="display-4 text-center">
+        Your Cart is Empty
+    </h3>
+}
+
+
+

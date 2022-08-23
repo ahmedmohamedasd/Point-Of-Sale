@@ -1,0 +1,45 @@
+﻿@model PointOfSale.ViewModel.SheekViewModel
+@{
+    ViewData["Title"] = "ViewSheek";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var sheekid = ViewBag.SheekId;
+}
+
+<h1>@ViewBag.SheekName</h1>
+
+@if (!Model.AssignToSheeks.Any())
+{
+
+
+    <div class="display-4 text-center">There is no Data in this Guest</div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Sub Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AssignToSheeks)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price</td>
+                    <td>@item.Total</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p>Grand Total : @Model.GrandTotal</p>
+   
+    <a asp-action="ClearSheekData" asp-controller="Sheeks" onclick="return confirm('Are you sure to Delete all this data')" asp-route-id="@sheekid" class="btn btn-danger">Clear</a>
+    <a asp-action="CheckOut" asp-controller="Sheeks" asp-route-id="@sheekid" class="btn btn-primary">Check out</a>
+    
+
+}

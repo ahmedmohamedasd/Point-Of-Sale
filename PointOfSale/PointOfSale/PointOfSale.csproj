@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-PointOfSale-729C18E0-D1DF-4BE0-9A66-10A493751D81</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20220818122734_ContentTable.cs" />
+    <Compile Remove="Data\Migrations\20220818122734_ContentTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20220818123957_ContentTable.cs" />
+    <Compile Remove="Data\Migrations\20220818123957_ContentTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20220818124519_ContentTable.cs" />
+    <Compile Remove="Data\Migrations\20220818124519_ContentTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20220818125127_ContentTable-force.cs" />
+    <Compile Remove="Data\Migrations\20220818125127_ContentTable-force.Designer.cs" />
+    <Compile Remove="Data\Migrations\20220818125322_lstUpdateonContent.cs" />
+    <Compile Remove="Data\Migrations\20220818125322_lstUpdateonContent.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EPPlus" Version="6.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.21" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.21" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.21" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.27">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.25" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.25">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\" />
+  </ItemGroup>
+
+</Project>

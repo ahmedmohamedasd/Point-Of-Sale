@@ -1,0 +1,56 @@
+﻿@model PointOfSale.Models.ViewModel.PaginatedList<BarItem>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_BarItemLayout.cshtml";
+}
+
+<h1>@ViewBag.CategoryName</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i>Add New Item</a>
+</p>
+
+<div class="row ">
+    @foreach (var item in Model)
+    {
+        var photoPath = "~/Images/" + (item.ImagePath ?? "No_image.jpg");
+
+        <div class="col-3 col-3-margin">
+            <div class="card">
+                <img src="@photoPath" style="height:100px;width:100%;" class="" asp-append-version="true">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text">@item.Price  <span style="font-weight:bold;color:#00ff80">@item.Category.CategoryName</span></p>
+
+                </div>
+                <div class="card-footer">
+                    <form asp-action="Delete" method="post" asp-route-id="@item.Id">
+                        <small class="text-muted">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+                            <a asp-action="Content" asp-route-id="@item.Id" class="btn btn-success btn-sm"> content</a>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you Sure You want too delete this Product')"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            @*data-toggle="ajax-modal" data-target="#deleteBarItem" data-url="@Url.Action($"Delete/{item.Id}")"*@
+                        </small>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        
+
+    }
+</div>
+@{
+    var previousDisabled = !Model.PreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.NextPage ? "disabled" : "";
+}
+<a asp-action="ProductsByCategory" asp-route-id="@ViewBag.Id" asp-route-p="@(Model.PageIndex - 1)" class="btn btn-info @previousDisabled">Previous</a>
+<a asp-action="ProductsByCategory" asp-route-id="@ViewBag.Id" asp-route-p="@(Model.PageIndex + 1)" class="btn btn-info @nextDisabled">Next</a>
+
+
+@section Scripts{
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+}
+

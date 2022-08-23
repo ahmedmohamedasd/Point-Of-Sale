@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "NotFound";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-content">
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Zero configuration table -->
+            <section id="configuration">
+
+                <p class="display-3">Not Found </p>
+
+                <h4>@ViewBag.ErrorMessage</h4>
+                <h5>@ViewBag.Path</h5>
+                <h6>@ViewBag.Qs</h6>
+
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-success">Back to Home</a>
+            </section>
+        </div>
+    </div>
+</div>
+

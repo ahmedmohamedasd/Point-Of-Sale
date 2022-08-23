@@ -1,0 +1,54 @@
+﻿@model IEnumerable<PointOfSale.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Categories </h1>
+<div asp-validation-summary="All" class="text-danger"></div>
+<p>
+    <a asp-action="Create" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i>Add Category</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sorting)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sorting)
+            </td>
+            <td>
+                @if (item.CategoryName != "NOTFORPAYING")
+                {
+
+
+                    <form asp-action="Delete" method="post" asp-route-id="@item.Id">
+                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.Id"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you Sure You want too delete this category')"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                    </form>
+
+                }
+                else
+                {
+                    <p>No Action Can Be Taken</p>
+                }
+            </td>
+
+            </tr>
+}
+    </tbody>
+</table>
