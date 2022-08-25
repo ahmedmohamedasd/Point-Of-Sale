@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Track\\Project\\PointOfSale\\PointOfSale\\PointOfSale.csproj": {}
+    "D:\\Track\\Project\\Point-Of-Sale\\PointOfSale\\PointOfSale\\PointOfSale.csproj": {}
   },
   "projects": {
-    "D:\\Track\\Project\\PointOfSale\\PointOfSale\\PointOfSale.csproj": {
+    "D:\\Track\\Project\\Point-Of-Sale\\PointOfSale\\PointOfSale\\PointOfSale.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Track\\Project\\PointOfSale\\PointOfSale\\PointOfSale.csproj",
+        "projectUniqueName": "D:\\Track\\Project\\Point-Of-Sale\\PointOfSale\\PointOfSale\\PointOfSale.csproj",
         "projectName": "PointOfSale",
-        "projectPath": "D:\\Track\\Project\\PointOfSale\\PointOfSale\\PointOfSale.csproj",
+        "projectPath": "D:\\Track\\Project\\Point-Of-Sale\\PointOfSale\\PointOfSale\\PointOfSale.csproj",
         "packagesPath": "C:\\Users\\Ahmed\\.nuget\\packages\\",
-        "outputPath": "D:\\Track\\Project\\PointOfSale\\PointOfSale\\obj\\",
+        "outputPath": "D:\\Track\\Project\\Point-Of-Sale\\PointOfSale\\PointOfSale\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ahmed\\AppData\\Roaming\\NuGet\\NuGet.Config",

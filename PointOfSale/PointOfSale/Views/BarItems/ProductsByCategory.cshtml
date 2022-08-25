@@ -45,8 +45,8 @@
     var previousDisabled = !Model.PreviousPage ? "disabled" : "";
     var nextDisabled = !Model.NextPage ? "disabled" : "";
 }
-<a asp-action="ProductsByCategory" asp-route-id="@ViewBag.Id" asp-route-p="@(Model.PageIndex - 1)" class="btn btn-info @previousDisabled">Previous</a>
-<a asp-action="ProductsByCategory" asp-route-id="@ViewBag.Id" asp-route-p="@(Model.PageIndex + 1)" class="btn btn-info @nextDisabled">Next</a>
+<a asp-controller="BarItems" asp-action="ProductsByCategory" asp-route-id="@ViewBag.CategoryId " asp-route-p="@(Model.PageIndex - 1)" class="btn btn-info @previousDisabled">Previous</a>
+<a asp-controller="BarItems" asp-action="ProductsByCategory" asp-route-id="@ViewBag.CategoryId " asp-route-p="@(Model.PageIndex + 1)" class="btn btn-info @nextDisabled">Next</a>
 
 
 @section Scripts{

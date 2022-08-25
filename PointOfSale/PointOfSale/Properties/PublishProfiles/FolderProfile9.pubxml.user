@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>D:\ilcampoLastPublish</_PublishTargetUrl>
+    <History>True|2022-08-24T12:26:30.4161755Z;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server=localhost%3bDatabase=aspnet-PointOfSale-729C18E0-D1DF-4BE0-9A66-10A493751D81%3bUser Id=sa%3b Password =12345%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="PointOfSale.Data.ApplicationDbContext">
+      <Value>Server=localhost%3bDatabase=aspnet-PointOfSale-729C18E0-D1DF-4BE0-9A66-10A493751D81%3bUser Id=sa%3b Password =12345%3b</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

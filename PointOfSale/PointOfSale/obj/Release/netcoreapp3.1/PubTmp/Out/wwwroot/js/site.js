@@ -38,6 +38,30 @@ jQueryAjaxPost = form => {
         console.log(ex)
     }
 }
+jQueryAddContent = form => {
+    try {
+        $.ajax({
+            type: 'POST',
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (res.isValid) {
+                    $('#form-modal .modal-body').html(res.html);
+                }
+                else
+                    $('#form-modal .modal-body').html(res.html);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+        return false;
+    } catch (ex) {
+        console.log(ex);
+    }
+}
 
 jQueryAjaxDelete = form => {
     if (confirm('Are you sure to delete this Transaction ?')) {
@@ -75,3 +99,6 @@ function ConfirmDelete(uniqueId, isDeleteClicked) {
         $("#" + confirmDeleteSpan).hide();
     }
 }
+
+// Add active class to the current button (highlight it)
+

@@ -570,3 +570,60 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20220806213524_addCategoryToCart')
+BEGIN
+    ALTER TABLE [CartItems] ADD [CategoryId] int NOT NULL DEFAULT 0;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20220806213524_addCategoryToCart')
+BEGIN
+    CREATE INDEX [IX_CartItems_CategoryId] ON [CartItems] ([CategoryId]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20220806213524_addCategoryToCart')
+BEGIN
+    ALTER TABLE [CartItems] ADD CONSTRAINT [FK_CartItems_Categories_CategoryId] FOREIGN KEY ([CategoryId]) REFERENCES [Categories] ([Id]) ON DELETE CASCADE;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20220806213524_addCategoryToCart')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20220806213524_addCategoryToCart', N'3.1.27');
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20220818125556_contentTable')
+BEGIN
+    CREATE TABLE [Contents] (
+        [Id] int NOT NULL IDENTITY,
+        [BarId] int NULL,
+        [ContentId] int NULL,
+        CONSTRAINT [PK_Contents] PRIMARY KEY ([Id]),
+        CONSTRAINT [FK_Contents_BarItems_ContentId] FOREIGN KEY ([ContentId]) REFERENCES [BarItems] ([Id]) ON DELETE NO ACTION
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20220818125556_contentTable')
+BEGIN
+    CREATE INDEX [IX_Contents_ContentId] ON [Contents] ([ContentId]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20220818125556_contentTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20220818125556_contentTable', N'3.1.27');
+END;
+
+GO
+

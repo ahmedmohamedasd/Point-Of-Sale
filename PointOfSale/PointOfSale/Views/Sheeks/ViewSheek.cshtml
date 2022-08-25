@@ -22,6 +22,7 @@ else
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Sub Total</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +33,11 @@ else
                     <td>@item.Quantity</td>
                     <td>@item.Price</td>
                     <td>@item.Total</td>
+                    <td>
+                        <form method="post" asp-action="DeleteItem" asp-route-id="@item.Id">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure You want to Delete this Item')" ><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>

@@ -34,6 +34,8 @@ namespace PointOfSale.Controllers
             
             return View(await PaginatedList<BarItem>.CreateAsync(_context.BarItems.Include(b => b.Category).OrderBy(c=>c.Category.Sorting), p, 8));
         }
+        [HttpGet]
+        [Route("/BarItems/ProductsByCategory/{id?}/{p?}")]
         public async Task<IActionResult> ProductsByCategory(int id, int p = 1)
         {
             Category category = _context.Categories.Find(id);

@@ -90,8 +90,16 @@ namespace PointOfSale.Controllers
             {
                 AssignToSheeks = sheek,
                 GrandTotal = sheek.Sum(c => c.Price * c.Quantity)
-        };
+            };
             return View(model);
+        }
+        public async Task<IActionResult> DeleteItem(int id)
+        {
+            var assigntoSheek = _context.AssignToSheeks.FirstOrDefault(c => c.Id == id);
+            var sheekid = assigntoSheek.sheekId;
+            _context.AssignToSheeks.Remove(assigntoSheek);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("ViewSheek",new { id=sheekid});
         }
 
         // Clear Sheek Data

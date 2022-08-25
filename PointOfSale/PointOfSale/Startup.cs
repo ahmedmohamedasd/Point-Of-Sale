@@ -42,7 +42,7 @@ namespace PointOfSale
             services.Configure<IdentityOptions>(option =>
             {
                 option.Password.RequiredLength = 6;
-                option.Password.RequireUppercase = true;
+                option.Password.RequireUppercase = false;
                 option.Password.RequireNonAlphanumeric = false;
                 option.Password.RequireLowercase = false;
 
