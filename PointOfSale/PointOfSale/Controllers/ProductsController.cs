@@ -25,7 +25,7 @@ namespace PointOfSale.Controllers
         [Authorize(Policy = "CartShow")]
         public async Task<IActionResult> Index(int p=1)
         {
-            return View(await PaginatedList<BarItem>.CreateAsync(context.BarItems.OrderBy(c=>c.Category.Sorting) , p , 12));
+            return View(await PaginatedList<BarItem>.CreateAsync(context.BarItems.OrderBy(c=>c.Category.Sorting).Where(c=>c.Category.CategoryName != "NOTFORPAYING") , p , 12));
         }
         [Authorize(Policy = "CartShow")]
         [Route("/Products/ProductsByCategory/{id?}/{p?}")]
