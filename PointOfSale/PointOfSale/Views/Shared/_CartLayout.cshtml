@@ -55,8 +55,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="CartStatistics" asp-action="Index">Cart Statistics</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="OrdersStocks" asp-action="Index">Stock</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Stock
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-controller="OrdersStocks" asp-action="Index">Stock Content</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item expired" asp-controller="OrdersStocks" asp-action="ExpiredIndex">Expired</a>
+                            </div>
                         </li>
                     </ul>
                 </div>

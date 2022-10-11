@@ -362,6 +362,29 @@ namespace PointOfSale.Data.Migrations
                     b.ToTable("Contents");
                 });
 
+            modelBuilder.Entity("PointOfSale.Models.ExpiredStock", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BarItemId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateOfOrder")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BarItemId");
+
+                    b.ToTable("ExpiredStocks");
+                });
+
             modelBuilder.Entity("PointOfSale.Models.OrdersStock", b =>
                 {
                     b.Property<int>("Id")
@@ -542,6 +565,15 @@ namespace PointOfSale.Data.Migrations
                     b.HasOne("PointOfSale.Models.BarItem", "BarItem2")
                         .WithMany()
                         .HasForeignKey("ContentId");
+                });
+
+            modelBuilder.Entity("PointOfSale.Models.ExpiredStock", b =>
+                {
+                    b.HasOne("PointOfSale.Models.BarItem", "BarItem")
+                        .WithMany()
+                        .HasForeignKey("BarItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PointOfSale.Models.OrdersStock", b =>

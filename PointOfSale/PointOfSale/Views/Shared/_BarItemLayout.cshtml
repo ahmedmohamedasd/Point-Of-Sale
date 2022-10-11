@@ -27,36 +27,43 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1 myDIV">
+                    <ul class="navbar-nav flex-grow-1">
                         @if (signInManager.IsSignedIn(User) && User.HasClaim("UsersShow", "true"))
                         {
-                            <li class="nav-item myDIV-link">
+                            <li class="nav-item ">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Users">Users</a>
                             </li>
                         }
                         @if (signInManager.IsSignedIn(User) && User.HasClaim("RoleShow", "true"))
                         {
-                            <li class="nav-item myDIV-link">
+                            <li class="nav-item ">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Roles"> Roles</a>
                             </li>
                         }
-                        <li class="nav-item myDIV-link">
+                        <li class="nav-item ">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
                         </li>
-                        <li class="nav-item myDIV-link">
+                        <li class="nav-item ">
                             <a class="nav-link text-dark" asp-area="" asp-controller="BarItems" asp-action="Index">Bar Items</a>
                         </li>
-                        <li class="nav-item myDIV-link">
+                        <li class="nav-item ">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Sheeks" asp-action="Index">Sheek</a>
                         </li>
-                        <li class="nav-item myDIV-link ">
+                        <li class="nav-item ">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Cart</a>
                         </li>
-                        <li class="nav-item myDIV-link">
+                        <li class="nav-item ">
                             <a class="nav-link text-dark " asp-area="" asp-controller="CartStatistics" asp-action="Index">Cart Statistics</a>
                         </li>
-                        <li class="nav-item myDIV-link">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="OrdersStocks" asp-action="Index">Stock</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Stock
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-controller="OrdersStocks" asp-action="Index">Stock Content</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item expired" asp-controller="OrdersStocks" asp-action="ExpiredIndex">Expired</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -101,17 +108,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @*<script>
-        var header = document.getElementById("myDIV");
-        var btns = header.getElementsByClassName("nav-item");
-        for (var i = 0; i < btns.length; i++) {
-            btns[i].addEventListener("click", function () {
-                var current = document.getElementsByClassName("activate");
-                current[0].className = current[0].className.replace(" activate", "");
-                this.className += " activate";
-            });
-        }
-    </script>*@
+    
     @RenderSection("Scripts", required: false)
 </body>
 </html>

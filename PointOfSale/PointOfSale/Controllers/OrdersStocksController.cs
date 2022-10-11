@@ -52,8 +52,12 @@ namespace PointOfSale.Controllers
         [Authorize(Policy = "StockAdd")]
         public IActionResult Create()
         {
-            ViewData["BarItemId"] = new SelectList(_context.BarItems, "Id", "Name");
-            return View();
+            ViewData["BarItemId"] = new SelectList(_context.BarItems.Include(c=>c.Category).OrderBy(c=>c.Category.Sorting), "Id", "Name");
+            OrdersStock vm = new OrdersStock()
+            {
+                DateOfOrder = DateTime.Now
+            };
+            return View(vm);
         }
 
         [HttpPost]
@@ -230,6 +234,123 @@ namespace PointOfSale.Controllers
         private bool OrdersStockExists(int id)
         {
             return _context.OrdersStocks.Any(e => e.Id == id);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ExpiredIndex()
+        {
+            var applicationDbContext = _context.ExpiredStocks.Include(o => o.BarItem).OrderByDescending(c => c.DateOfOrder);
+            return View(await applicationDbContext.ToListAsync());
+        }
+        [HttpGet]
+        public async Task<IActionResult> AddOrEditExpired(int id = 0)
+        {
+            if (id == 0)
+            {
+                ViewData["BarItemId"] = new SelectList(_context.BarItems.Include(c => c.Category).OrderBy(c => c.Category.Sorting), "Id", "Name");
+                ExpiredStock vm = new ExpiredStock();
+                vm.DateOfOrder = DateTime.Now;
+                ViewBag.Header = "Add Expired Item";
+                return View(vm);
+            }
+            else
+            {
+                var expired = await _context.ExpiredStocks.FindAsync(id);
+                if (expired == null)
+                {
+                    return NotFound();
+                }
+                ViewBag.Header = "Edit Expired Item";
+
+                ViewData["BarItemId"] = new SelectList(_context.BarItems.Include(c => c.Category).OrderBy(c => c.Category.Sorting), "Id", "Name");
+                return View(expired);
+            }
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddOrEditExpired(int id, ExpiredStock expiredStock)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id == 0)
+                {
+                     _context.ExpiredStocks.Add(expiredStock);
+                    await _context.SaveChangesAsync();
+                    var stock =  _context.Stocks.FirstOrDefault(c => c.ProductId == expiredStock.BarItemId);
+                    if(stock != null)
+                    {
+                        stock.Quantity = stock.Quantity - expiredStock.Quantity;
+                        _context.Stocks.Update(stock);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                else
+                {
+                    var IndbExpiredItem = _context.ExpiredStocks.AsNoTracking().FirstOrDefault(c => c.Id == id);
+                    if (IndbExpiredItem.BarItemId == expiredStock.BarItemId)
+                    {
+                        var stock = _context.Stocks.FirstOrDefault(c => c.ProductId == expiredStock.BarItemId);
+                        if (stock != null && IndbExpiredItem.Quantity != expiredStock.Quantity)
+                        {
+                            if(expiredStock.Quantity > IndbExpiredItem.Quantity)
+                            {
+                                stock.Quantity = stock.Quantity - (expiredStock.Quantity-IndbExpiredItem.Quantity);
+
+                            }
+                            else
+                            {
+                                stock.Quantity = stock.Quantity + (IndbExpiredItem.Quantity - expiredStock.Quantity);
+
+                            }
+                            _context.Stocks.Update(stock);
+                            await _context.SaveChangesAsync();
+                        }
+
+                    }
+                    else
+                    {
+                        var stockInDb = _context.Stocks.FirstOrDefault(c => c.ProductId == IndbExpiredItem.BarItemId);
+                        if(stockInDb != null)
+                        {
+                            stockInDb.Quantity = stockInDb.Quantity + IndbExpiredItem.Quantity;
+                            _context.Stocks.Update(stockInDb);
+                            await _context.SaveChangesAsync();
+                        }
+                        var realStock = _context.Stocks.FirstOrDefault(c => c.ProductId == expiredStock.BarItemId);
+                        if (realStock != null)
+                        {
+                            realStock.Quantity = realStock.Quantity - expiredStock.Quantity;
+                            _context.Stocks.Update(realStock);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                    
+                    
+                   
+                    _context.ExpiredStocks.Update(expiredStock);
+                    await _context.SaveChangesAsync();
+
+                }
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllExpired", _context.ExpiredStocks.Include(c=>c.BarItem).ToList()) });
+            }
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEditExpired", expiredStock) });
+        }
+        [HttpPost, ActionName("DeleteExpired")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteExpiredConfirmed(int id)
+        {
+           
+            var expired = await _context.ExpiredStocks.FindAsync(id);
+            var stock =  _context.Stocks.FirstOrDefault(c => c.ProductId == expired.BarItemId);
+            if(stock != null)
+            {
+                stock.Quantity = stock.Quantity + expired.Quantity;
+                _context.Stocks.Update(stock);
+                await _context.SaveChangesAsync();
+            }
+            _context.ExpiredStocks.Remove(expired);
+            await _context.SaveChangesAsync();
+            return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAllExpired", _context.ExpiredStocks.Include(c=>c.BarItem).ToList()) });
+
         }
     }
 }

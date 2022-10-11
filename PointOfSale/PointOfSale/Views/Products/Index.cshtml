@@ -9,7 +9,6 @@
     @foreach (var item in Model)
     {
         <div class="col-2">
-
             <img src="~/images/@item.ImagePath" class="img-fluid" style="width:100px; height:100px ; border-radius:100%" alt="" />
             @if (item.Name.Length > 9 && !item.Name.Contains(" "))
             {

@@ -96,9 +96,19 @@ namespace PointOfSale.Controllers
         public async Task<IActionResult> DeleteItem(int id)
         {
             var assigntoSheek = _context.AssignToSheeks.FirstOrDefault(c => c.Id == id);
+            
             var sheekid = assigntoSheek.sheekId;
             _context.AssignToSheeks.Remove(assigntoSheek);
             await _context.SaveChangesAsync();
+            var sheekInDb = _context.AssignToSheeks.FirstOrDefault(c => c.sheekId == sheekid);
+            if(sheekInDb == null)
+            {
+                var model = _context.Sheeks.FirstOrDefault(c => c.Id == sheekid);
+                model.HaveData = false;
+                _context.Sheeks.Update(model);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
             return RedirectToAction("ViewSheek",new { id=sheekid});
         }
 

@@ -1,0 +1,16 @@
+﻿@model IEnumerable<PointOfSale.Models.ExpiredStock>
+@{
+    ViewData["Title"] = "ExpiredIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="view-all-expired">
+    @await Html.PartialAsync("_ViewAllExpired", Model);
+</div>
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    @* <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>*@
+
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="~/lib/datatables-simple-demo.js"></script>
+}

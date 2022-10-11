@@ -37,7 +37,7 @@ namespace PointOfSale.Controllers
                 ApplicationUser signedUser = await userManager.FindByEmailAsync(model.Email);
                 if (signedUser == null)
                 {
-                    ModelState.AddModelError("", "Email Not Found");
+                    ModelState.AddModelError("", "Email Or Password is incorrect");
                     return View(model);
                 }
                 if(signedUser.IsActive == true)

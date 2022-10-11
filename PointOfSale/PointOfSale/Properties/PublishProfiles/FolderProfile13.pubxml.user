@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>D:\Project ILcampo\publishonSmarter</_PublishTargetUrl>
+    <History>True|2022-09-08T15:24:25.1547222Z;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Data Source=SQL8001.site4now.net%3bInitial Catalog=db_a8c9b7_secondtest2012%3bUser Id=db_a8c9b7_secondtest2012_admin%3bPassword=Asd%4001028497923</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="PointOfSale.Data.ApplicationDbContext">
+      <Value>Data Source=SQL8001.site4now.net%3bInitial Catalog=db_a8c9b7_secondtest2012%3bUser Id=db_a8c9b7_secondtest2012_admin%3bPassword=Asd%4001028497923</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

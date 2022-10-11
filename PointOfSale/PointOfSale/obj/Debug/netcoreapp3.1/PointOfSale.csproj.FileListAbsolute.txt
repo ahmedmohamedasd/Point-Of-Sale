@@ -440,3 +440,6 @@ D:\Track\Project\Point-Of-Sale\PointOfSale\PointOfSale\obj\Debug\netcoreapp3.1\P
 D:\Track\Project\Point-Of-Sale\PointOfSale\PointOfSale\obj\Debug\netcoreapp3.1\PointOfSale.pdb
 D:\Track\Project\Point-Of-Sale\PointOfSale\PointOfSale\obj\Debug\netcoreapp3.1\PointOfSale.genruntimeconfig.cache
 D:\Track\Project\Point-Of-Sale\PointOfSale\PointOfSale\obj\Debug\netcoreapp3.1\PointOfSale.csproj.AssemblyReference.cache
+D:\Track\Project\Point-Of-Sale\PointOfSale\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\OrdersStocks\ExpiredIndex.cshtml.g.cs
+D:\Track\Project\Point-Of-Sale\PointOfSale\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\OrdersStocks\AddOrEditExpired.cshtml.g.cs
+D:\Track\Project\Point-Of-Sale\PointOfSale\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\OrdersStocks\_ViewAllExpired.cshtml.g.cs
