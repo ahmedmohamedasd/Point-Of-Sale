@@ -250,6 +250,7 @@ namespace PointOfSale.Controllers
             };
             return View(vm);
         }
+        
         [HttpPost]
         public async Task<IActionResult> AddOrEdit(BarContentViewModel model)
         {
@@ -262,6 +263,7 @@ namespace PointOfSale.Controllers
             return RedirectToAction("Index");
 
         }
+       
         //Content Function 
         [HttpGet]
         [Authorize(Policy = "BarItemsShow")]
@@ -271,7 +273,7 @@ namespace PointOfSale.Controllers
             var bartems = _context.BarItems.FirstOrDefault(c => c.Id == id);
             if (bartems == null)
                 return NotFound();
-            var itemList = _context.BarItems.Include(c => c.Category).Where(x => x.Id != id).ToList();
+            var itemList = _context.BarItems.Include(c => c.Category).ToList();
             var contentModel = _context.Contents.Where(c => c.BarId == id).ToList();
             if (contentModel.Count > 0)
             {
@@ -294,19 +296,22 @@ namespace PointOfSale.Controllers
             BarContentViewModel vm = new BarContentViewModel
             {
                 contentId = model,
-                ContentList = contentList
+                ContentList = contentList,
+                Quantity= 0
             };
             return View(vm);
-
         }
+      
         [HttpPost]
         [Authorize(Policy = "BarItemsAdd")]
         public async Task<IActionResult> AddToContent( BarContentViewModel model)
         {
+            model.contentId.Quantity = model.Quantity;
             _context.Contents.Add(model.contentId);
             await _context.SaveChangesAsync();
             return RedirectToAction( "Content", new { id = model.contentId.BarId });
         }
+       
         [HttpPost]
         [Authorize(Policy = "BarItemsDelete")]
         public async Task<IActionResult> DeleteContent(int id , int contentId)

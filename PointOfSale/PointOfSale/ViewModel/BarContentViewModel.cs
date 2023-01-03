@@ -10,5 +10,6 @@ namespace PointOfSale.ViewModel
     {
         public Content contentId { get; set; }
         public List<Content> ContentList { get; set; }
+        public decimal Quantity { get; set; }
     }
 }

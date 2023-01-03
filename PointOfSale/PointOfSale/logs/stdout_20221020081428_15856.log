@@ -1,0 +1,15 @@
+You must install or update .NET to run this application.
+
+App: E:\Track\Project\Point-Of-Sale\PointOfSale\PointOfSale\bin\Debug\netcoreapp3.1\PointOfSale.dll
+Architecture: x64
+Framework: 'Microsoft.AspNetCore.App', version '3.1.0' (x64)
+.NET location: C:\Program Files\dotnet\
+
+The following frameworks were found:
+  6.0.10 at [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+
+Learn about framework resolution:
+https://aka.ms/dotnet/app-launch-failed
+
+To install missing framework, download:
+https://aka.ms/dotnet-core-applaunch?framework=Microsoft.AspNetCore.App&framework_version=3.1.0&arch=x64&rid=win10-x64

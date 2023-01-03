@@ -33,7 +33,7 @@ namespace PointOfSale.Controllers
             List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
             CartViewModel vm;
             bool flage = false;
-            DateTime dateTime = DateTime.Now;
+            DateTime dateTime = DateTime.UtcNow;
             bool free = false;
             for (int i = 0; i < cart.Count; i++)
             {
@@ -51,7 +51,7 @@ namespace PointOfSale.Controllers
                 {
                     CartItems = cart,
                     GrandTotal = cart.Sum(c => c.Quantity * c.Price),
-                    Date = DateTime.Now,
+                    Date = DateTime.UtcNow,
                     IsFree = false
                 };
             }

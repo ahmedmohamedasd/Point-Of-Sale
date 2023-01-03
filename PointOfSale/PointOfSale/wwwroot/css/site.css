@@ -131,4 +131,16 @@ body {
 .expired {
     color: brown;
     font-weight:bold;
+    font-size :large;
 }
+.stock-content {
+    color: darkgreen;
+    font-size:large;
+    font-weight: bold;
+}
+.card-conent {
+    padding :20px;
+    background-color : azure;
+}
+
+

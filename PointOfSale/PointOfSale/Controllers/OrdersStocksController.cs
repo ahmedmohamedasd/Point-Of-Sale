@@ -28,12 +28,14 @@ namespace PointOfSale.Controllers
             var stock = await _context.Stocks.Include(c => c.BarItem).OrderBy(c => c.Quantity).ToListAsync();
             return View(stock);
         }
+      
         [AllowAnonymous]
         public async Task<IActionResult> StockContent()
         {           
             var applicationDbContext = _context.OrdersStocks.Include(o => o.BarItem).OrderByDescending(c => c.DateOfOrder);
             return View(await applicationDbContext.ToListAsync());
         }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "StockDelete")]
@@ -48,6 +50,8 @@ namespace PointOfSale.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+       
+        
         // GET: OrdersStocks/Create
         [Authorize(Policy = "StockAdd")]
         public IActionResult Create()
@@ -55,7 +59,7 @@ namespace PointOfSale.Controllers
             ViewData["BarItemId"] = new SelectList(_context.BarItems.Include(c=>c.Category).OrderBy(c=>c.Category.Sorting), "Id", "Name");
             OrdersStock vm = new OrdersStock()
             {
-                DateOfOrder = DateTime.Now
+                DateOfOrder = DateTime.UtcNow
             };
             return View(vm);
         }
@@ -230,25 +234,30 @@ namespace PointOfSale.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("StockContent");
         }
+       
         [AllowAnonymous]
         private bool OrdersStockExists(int id)
         {
             return _context.OrdersStocks.Any(e => e.Id == id);
         }
+       
         [HttpGet]
+        [Authorize(Policy = "StockShow")]
         public async Task<IActionResult> ExpiredIndex()
         {
             var applicationDbContext = _context.ExpiredStocks.Include(o => o.BarItem).OrderByDescending(c => c.DateOfOrder);
             return View(await applicationDbContext.ToListAsync());
         }
+        
         [HttpGet]
+        [Authorize(Policy = "StockAdd")]
         public async Task<IActionResult> AddOrEditExpired(int id = 0)
         {
             if (id == 0)
             {
                 ViewData["BarItemId"] = new SelectList(_context.BarItems.Include(c => c.Category).OrderBy(c => c.Category.Sorting), "Id", "Name");
                 ExpiredStock vm = new ExpiredStock();
-                vm.DateOfOrder = DateTime.Now;
+                vm.DateOfOrder = DateTime.UtcNow;
                 ViewBag.Header = "Add Expired Item";
                 return View(vm);
             }
@@ -266,7 +275,9 @@ namespace PointOfSale.Controllers
             }
 
         }
+        
         [HttpPost]
+        [Authorize(Policy = "StockAdd")]
         public async Task<IActionResult> AddOrEditExpired(int id, ExpiredStock expiredStock)
         {
             if (ModelState.IsValid)
@@ -334,8 +345,10 @@ namespace PointOfSale.Controllers
             }
             return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEditExpired", expiredStock) });
         }
+       
         [HttpPost, ActionName("DeleteExpired")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "StockDelete")]
         public async Task<IActionResult> DeleteExpiredConfirmed(int id)
         {
            

@@ -1,6 +1,7 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -126,4 +127,18 @@ body {
 .activate , .nav-link:hover{
     font-weight:bold;    
     border-radius:100%;
+}
+.expired {
+    color: brown;
+    font-weight:bold;
+    font-size :large;
+}
+.stock-content {
+    color: darkgreen;
+    font-size:large;
+    font-weight: bold;
+}
+.card-conent {
+    padding :20px;
+    background-color : azure;
 }

@@ -16,6 +16,10 @@ namespace PointOfSale.Models
         [ForeignKey("BarItem2")]
         [Display(Name = "Content Name")]
         public int? ContentId { get; set; }
-    
-}
+
+        [Required]
+        [Column(TypeName = "decimal(18, 3)")]
+        public decimal Quantity { get; set; }
+
+    }
 }

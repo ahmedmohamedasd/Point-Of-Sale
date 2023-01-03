@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>D:\Project ILcampo\cherifPublish</_PublishTargetUrl>
+    <History>True|2022-10-17T18:23:09.0016385Z;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Data Source=SQL8001.site4now.net%3bInitial Catalog=db_a8d04e_cherifabdelrehim%3bUser Id=db_a8d04e_cherifabdelrehim_admin%3bPassword=67%40D!Lpa3N</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="PointOfSale.Data.ApplicationDbContext">
+      <Value>Data Source=SQL8001.site4now.net%3bInitial Catalog=db_a8d04e_cherifabdelrehim%3bUser Id=db_a8d04e_cherifabdelrehim_admin%3bPassword=67%40D!Lpa3N</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

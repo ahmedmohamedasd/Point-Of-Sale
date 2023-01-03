@@ -355,6 +355,9 @@ namespace PointOfSale.Data.Migrations
                     b.Property<int?>("ContentId")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18, 3)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ContentId");

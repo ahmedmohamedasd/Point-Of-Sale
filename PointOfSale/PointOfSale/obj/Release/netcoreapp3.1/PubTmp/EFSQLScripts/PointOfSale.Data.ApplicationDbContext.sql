@@ -627,3 +627,40 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221010142327_ExpiredTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20221010142327_ExpiredTable', N'3.1.27');
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221010142544_ExpiredTable-force')
+BEGIN
+    CREATE TABLE [ExpiredStocks] (
+        [Id] int NOT NULL IDENTITY,
+        [BarItemId] int NOT NULL,
+        [Quantity] int NOT NULL,
+        [DateOfOrder] datetime2 NOT NULL,
+        CONSTRAINT [PK_ExpiredStocks] PRIMARY KEY ([Id]),
+        CONSTRAINT [FK_ExpiredStocks_BarItems_BarItemId] FOREIGN KEY ([BarItemId]) REFERENCES [BarItems] ([Id]) ON DELETE CASCADE
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221010142544_ExpiredTable-force')
+BEGIN
+    CREATE INDEX [IX_ExpiredStocks_BarItemId] ON [ExpiredStocks] ([BarItemId]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221010142544_ExpiredTable-force')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20221010142544_ExpiredTable-force', N'3.1.27');
+END;
+
+GO
+

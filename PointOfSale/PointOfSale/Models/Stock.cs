@@ -12,6 +12,7 @@ namespace PointOfSale.Models
         public BarItem BarItem { get; set; }
         [ForeignKey("BarItem")]
         public int ProductId { get; set; }
-        public int Quantity { get; set; }
+        [Column(TypeName ="decimal(18,3)")]
+        public decimal Quantity { get; set; }
     }
 }
