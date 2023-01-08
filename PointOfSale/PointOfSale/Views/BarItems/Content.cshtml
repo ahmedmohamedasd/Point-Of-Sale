@@ -6,7 +6,13 @@
 }
 
 <h1 style="text-align:center;">@ViewBag.ItemName</h1>
+<div class="card box-shadow">
+    <div class="card-header">
+        <h5>Add Conent</h5>
+    </div>
+    <div class="card-body">
 
+   
 <form method="post" asp-action="AddToContent">
     <input type="hidden" asp-for="contentId.BarId" />
    
@@ -27,9 +33,16 @@
     </div>
     
 </form>
+</div>
+</div>
 <hr />
 @if (Model.ContentList.Any()) {
-    <h3>Content Items</h3>
+    <div class="card box-shadow-5 ">
+        <div class="card-header">
+            <h3>Content Items</h3>
+
+        </div>
+    <div class="card-body">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -45,12 +58,11 @@
             }
             @foreach (var item in Model.ContentList)
             {
-                
                 No++;
                 <tr>
                     <th scope="row">@No</th>
                     <td> @item.BarItem2.Name</td>
-                    <td>@item.Quantity</td>
+                    <td>@item.Amount</td>
                     <td>
                         <form method="post" asp-action="DeleteContent" asp-route-id="@item.BarId" asp-route-contentId="@item.ContentId">
 
@@ -65,9 +77,10 @@
            
         </tbody>
     </table>
-       
-            
-      
+
+
+        </div>
+        </div>
 
 }
 else {

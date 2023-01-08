@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml.ConditionalFormatting;
 using PointOfSale.Data;
 using PointOfSale.Models;
+using PointOfSale.Models.ViewModel;
 
 namespace PointOfSale.Controllers
 {
@@ -315,7 +317,6 @@ namespace PointOfSale.Controllers
                             _context.Stocks.Update(stock);
                             await _context.SaveChangesAsync();
                         }
-
                     }
                     else
                     {
@@ -364,6 +365,59 @@ namespace PointOfSale.Controllers
             await _context.SaveChangesAsync();
             return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAllExpired", _context.ExpiredStocks.Include(c=>c.BarItem).ToList()) });
 
+        }
+
+        public IActionResult ItemDetails(int id)
+        {
+            DateTime now = DateTime.Now;
+            var startDate = new DateTime(now.Year, now.Month, 1);
+            var endDate = startDate.AddMonths(1).AddDays(-1);
+            var model = GetDetails(id , startDate, endDate);
+            return View(model);
+         
+        }
+        public StockDetailsViewModel GetDetails(int id , DateTime StartDate , DateTime EndDate)
+        {
+            var OrdersStock = _context.OrdersStocks
+                             .Where(c => c.BarItemId == id &&
+                                    c.DateOfOrder.Date >= StartDate.Date && 
+                                    c.DateOfOrder.Date <= EndDate.Date ).ToList();
+            var OperationOfStock = _context.OperationStocks
+                .Include(c => c.CartItems)
+                .Where(c => c.ContentID == id && 
+                       c.DateOfOrder.Date >= StartDate.Date &&
+                       c.DateOfOrder.Date <= EndDate.Date).ToList();
+            
+            var newList = OperationOfStock.GroupBy(x => new { x.DateOfOrder.Date, x.CartItems.ProductName, x.Amount })
+                     .Select(y => new ConsolidateOperation()
+                     {
+                         OrderedDate = y.Key.Date,
+                         ProductName = y.Key.ProductName,
+                         Amount = y.Key.Amount,
+                         Quantity = y.Sum(x => x.Quantity)
+                     }).ToList();
+            ViewBag.ItemName = _context.BarItems.FirstOrDefault(c => c.Id == id).Name;
+            StockDetailsViewModel model = new StockDetailsViewModel
+            {
+                OperationStocks = newList,
+                OrdersStocks = OrdersStock,
+                TotalOperation = OperationOfStock.Sum(c => c.Quantity * c.Amount),
+                TotalOrders = OrdersStock.Sum(c => c.Quantity)
+            };
+
+            return model;
+
+        }
+
+        public IActionResult SearchOperation(string ProductName, DateTime StartDate , DateTime EndDate)
+        {
+            var id = _context.BarItems.FirstOrDefault(c => c.Name == ProductName).Id;
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var model = GetDetails(id, StartDate, EndDate);
+            return View("ItemDetails",model);
         }
     }
 }

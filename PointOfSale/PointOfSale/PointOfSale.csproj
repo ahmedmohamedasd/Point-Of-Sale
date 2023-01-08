@@ -16,6 +16,12 @@
     <Compile Remove="Data\Migrations\20220818125127_ContentTable-force.Designer.cs" />
     <Compile Remove="Data\Migrations\20220818125322_lstUpdateonContent.cs" />
     <Compile Remove="Data\Migrations\20220818125322_lstUpdateonContent.Designer.cs" />
+    <Compile Remove="Data\Migrations\20230106153101_OperationStock.cs" />
+    <Compile Remove="Data\Migrations\20230106153101_OperationStock.Designer.cs" />
+    <Compile Remove="Data\Migrations\20230106153235_OperationToStock.cs" />
+    <Compile Remove="Data\Migrations\20230106153235_OperationToStock.Designer.cs" />
+    <Compile Remove="Data\Migrations\20230107175301_UpdateColumn.cs" />
+    <Compile Remove="Data\Migrations\20230107175301_UpdateColumn.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

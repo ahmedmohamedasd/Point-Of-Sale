@@ -19,6 +19,7 @@ namespace PointOfSale.Data
         public DbSet<AssignToSheek> AssignToSheeks { get; set; }
         public DbSet<Content> Contents { get; set; }
         public DbSet<ExpiredStock> ExpiredStocks { get; set; }
+        public DbSet<OperationStock> OperationStocks { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

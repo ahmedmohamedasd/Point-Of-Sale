@@ -68,6 +68,7 @@ namespace PointOfSale.Controllers
            
             return View(vm);
         }
+      
         [Authorize(Policy = "CartAdd")]
         public async Task<IActionResult> Add(int id)
         {
@@ -87,6 +88,7 @@ namespace PointOfSale.Controllers
                 return RedirectToAction("Index");
             return ViewComponent("SmallCart");
         }
+      
         [Authorize(Policy = "CartEdit")]
         public async Task<IActionResult> Update(int id)
         {
@@ -98,6 +100,7 @@ namespace PointOfSale.Controllers
                 return RedirectToAction("Index");
             return ViewComponent("SmallCart");
         }
+       
         [Authorize(Policy = "CartAdd")]
         public IActionResult Decrease(int id)
         {
@@ -122,6 +125,7 @@ namespace PointOfSale.Controllers
             return RedirectToAction("Index");
 
         }
+        
         [Authorize(Policy = "CartAdd")]
         public IActionResult Remove(int id)
         {
@@ -139,12 +143,14 @@ namespace PointOfSale.Controllers
             }
             return RedirectToAction("Index");
         }
+      
         [AllowAnonymous]
         public IActionResult Clear()
         {
             HttpContext.Session.Remove("Cart");
             return Redirect(Request.Headers["Referer"].ToString());
         }
+      
         [Authorize(Policy = "CartAdd")]
         public IActionResult Save(DateTime Rdate, bool IsFree)
         {
@@ -158,22 +164,28 @@ namespace PointOfSale.Controllers
                     cart[i].IsFree = IsFree;
                     context.CartItems.Add(cart[i]);
                     context.SaveChanges();
-                    var stock = context.Stocks.FirstOrDefault(c => c.ProductId == cart[i].ProductId);
                     var barContent = context.Contents.Where(c => c.BarId == cart[i].ProductId).ToList();
-                    if (stock != null)
-                    {
-                        stock.Quantity = stock.Quantity - cart[i].Quantity;
-                        context.Stocks.Update(stock);
-                        context.SaveChanges();
-                        
-                    }if(barContent.Count > 0)
+                  
+                    if(barContent.Count > 0)
                     {
                         for (int j = 0; j < barContent.Count; j++)
                         {
                             var contentStock = context.Stocks.FirstOrDefault(c => c.ProductId == barContent[j].ContentId);
+                            var orderId = context.CartItems.Max(c => c.Id);
+                            var operation = new OperationStock
+                            {
+                                BarItemId = cart[i].ProductId,
+                                ContentID = (int)barContent[j].ContentId,
+                                Amount = barContent[j].Amount,
+                                DateOfOrder = cart[i].DateOfReceipt,
+                                Quantity = cart[i].Quantity,
+                                CartOrderId = orderId
+                            };
+                            context.OperationStocks.Add(operation);
+                            context.SaveChanges();
                             if (contentStock != null)
                             {
-                                contentStock.Quantity = contentStock.Quantity - cart[i].Quantity;
+                                contentStock.Quantity = contentStock.Quantity - (cart[i].Quantity * barContent[j].Amount);
                                 context.Stocks.Update(contentStock);
                                 context.SaveChanges();
                             }
@@ -183,35 +195,23 @@ namespace PointOfSale.Controllers
                 }
                 else
                 {
-                    var stock = context.Stocks.FirstOrDefault(c => c.ProductId == cart[i].ProductId);
-                    if(stock != null)
-                    {
-                        var oldCart = context.CartItems.AsNoTracking().FirstOrDefault(c => c.Id == cart[i].Id);
-                        if (oldCart.Quantity != cart[i].Quantity)
-                        {
-                            if (oldCart.Quantity > cart[i].Quantity)
-                            {
-                                stock.Quantity = stock.Quantity + (oldCart.Quantity - cart[i].Quantity);
-                            }
-                            else
-                            {                       
-                                stock.Quantity = stock.Quantity - (cart[i].Quantity -oldCart.Quantity );
-                            }
-                            context.Stocks.Update(stock);
-                            context.SaveChanges();
-                           
-
-                        }
-                      
-
-                    }
+                                      
                     var barContent = context.Contents.Where(c => c.BarId == cart[i].ProductId).ToList();
-
+                    var operations = context.OperationStocks.Where(c => c.CartOrderId == cart[i].Id).ToList();
                     if (barContent.Count > 0)
                     {
                         var oldCart = context.CartItems.AsNoTracking().FirstOrDefault(c => c.Id == cart[i].Id);
                         if (oldCart.Quantity != cart[i].Quantity)
                         {
+                            if(operations != null)
+                            {
+                                for(int k=0; k<operations.Count; k++)
+                                {
+                                    operations[k].Quantity = cart[i].Quantity;
+                                    context.Update(operations[k]);
+                                    context.SaveChanges();
+                                }
+                            }
                             
                             for (int j = 0; j < barContent.Count; j++)
                             {
@@ -220,11 +220,11 @@ namespace PointOfSale.Controllers
                                 {
                                     if (contentStock.Quantity > cart[i].Quantity)
                                     {
-                                        contentStock.Quantity = contentStock.Quantity + (oldCart.Quantity - cart[i].Quantity);
+                                        contentStock.Quantity = contentStock.Quantity + (oldCart.Quantity - cart[i].Quantity) * barContent[j].Amount;
                                     }
                                     else
                                     {
-                                        contentStock.Quantity = contentStock.Quantity - (cart[i].Quantity - oldCart.Quantity);
+                                        contentStock.Quantity = contentStock.Quantity - (cart[i].Quantity - oldCart.Quantity) * barContent[j].Amount;
                                     }
                                     context.Stocks.Update(contentStock);
                                     context.SaveChanges();
@@ -248,6 +248,7 @@ namespace PointOfSale.Controllers
             
            
         }
+      
         [AllowAnonymous]
         public IActionResult PrintReceipt()
         {

@@ -27,5 +27,10 @@ namespace PointOfSale.Models
         [NotMapped]
         [AllowedExtensions(new string[] { ".jpg", ".png" } , ErrorMessage ="Img Extension should be .jpg or png")]
         public IFormFile PhotoUpload { get; set; }
+
+        //[Display(Name = "Min Value")]
+        //[Column(TypeName = "decimal(18,3)")]
+        //[Required]
+        //public decimal MinimumValue { get; set; } = 0;
     }
 }

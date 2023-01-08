@@ -32,12 +32,14 @@ namespace PointOfSale.Controllers
             var cartItems = context.CartItems.Where(c =>c.DateOfReceipt.Date == DateTime.Now.Date).OrderByDescending(c=>c.Id).ToList();
             return View(cartItems);
         }
+       
         [AllowAnonymous]
         public IActionResult SearchOrder(DateTime StartDate)
         {
             var cartItems = context.CartItems.Where(c => c.DateOfReceipt.Date == StartDate.Date).OrderByDescending(c => c.Id).ToList();
             return View("Index",cartItems);
         }
+       
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "CartDelete")]
@@ -47,14 +49,8 @@ namespace PointOfSale.Controllers
             if (cartItem == null)
                 return NotFound();
 
-            var stock = context.Stocks.FirstOrDefault(c => c.ProductId == cartItem.ProductId);
             var barContent = context.Contents.Where(c => c.BarId == cartItem.ProductId).ToList();
-            if (stock != null)
-            {
-                stock.Quantity = stock.Quantity + cartItem.Quantity;
-                context.Stocks.Update(stock);
-                context.SaveChanges();              
-            }
+           
             if(barContent != null)
             {
                 for (int j = 0; j < barContent.Count; j++)
@@ -62,10 +58,19 @@ namespace PointOfSale.Controllers
                     var contentStock = context.Stocks.FirstOrDefault(c => c.ProductId == barContent[j].ContentId);
                     if (contentStock != null)
                     {
-                        contentStock.Quantity = contentStock.Quantity + cartItem.Quantity;
+                        contentStock.Quantity = contentStock.Quantity + cartItem.Quantity * barContent[j].Amount;
                         context.Stocks.Update(contentStock);
                         context.SaveChanges();
                     }
+                }
+            }
+            var operations = context.OperationStocks.Where(c => c.CartOrderId == id).ToList();
+            if (operations.Any())
+            {
+                for(int i=0; i < operations.Count(); i++)
+                {
+                    context.OperationStocks.Remove(operations[i]);
+                    context.SaveChanges();
                 }
             }
             context.CartItems.Remove(cartItem);
@@ -129,6 +134,7 @@ namespace PointOfSale.Controllers
             // in another hand  MyObject myObject2 = JsonConvert.DeserializeObject<MyObject>(TempData["Key"].ToString());
             return View(vm);
             }
+       
         [AllowAnonymous]
         public IActionResult PrintDailyReceipt()
         {

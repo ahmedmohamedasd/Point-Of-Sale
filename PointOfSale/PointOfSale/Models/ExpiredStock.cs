@@ -15,8 +15,8 @@ namespace PointOfSale.Models
         [Display(Name = "Bar Item")]
         public int BarItemId { get; set; }
         [Required]
-        //[Column(TypeName ="decimal(18,3)")]
-        public int Quantity { get; set; }
+        [Column(TypeName ="decimal(18,3)")]
+        public decimal Quantity { get; set; }
         [Display(Name = "Date Of Order")]
         public DateTime DateOfOrder { get; set; }
     }

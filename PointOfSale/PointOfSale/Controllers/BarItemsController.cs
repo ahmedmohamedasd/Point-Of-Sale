@@ -306,7 +306,7 @@ namespace PointOfSale.Controllers
         [Authorize(Policy = "BarItemsAdd")]
         public async Task<IActionResult> AddToContent( BarContentViewModel model)
         {
-            model.contentId.Quantity = model.Quantity;
+            model.contentId.Amount = model.Quantity;
             _context.Contents.Add(model.contentId);
             await _context.SaveChangesAsync();
             return RedirectToAction( "Content", new { id = model.contentId.BarId });

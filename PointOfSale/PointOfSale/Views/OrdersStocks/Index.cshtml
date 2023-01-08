@@ -4,9 +4,7 @@
     ViewData["Title"] = "StockContent";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="row">
-    <a class="btn btn-primary" asp-action="StockContent"><i class="fa fa-table" aria-hidden="true"></i>Stock Operations</a>
-</div>
+
 <br />
 @if (Model.Any())
 {
@@ -32,10 +30,13 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.BarItem.Name)
+                                <a asp-action="ItemDetails" asp-controller="OrdersStocks" asp-route-id="@item.ProductId">
+                                    @Html.DisplayFor(modelItem => item.BarItem.Name)
+                                </a>
+                                
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Quantity)
+                                @item.Quantity
                             </td>
                             <td>
                                 <form method="post" asp-action="DeleteStock" asp-controller="OrdersStocks" asp-route-id="@item.Id">

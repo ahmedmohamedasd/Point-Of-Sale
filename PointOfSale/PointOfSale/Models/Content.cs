@@ -19,7 +19,7 @@ namespace PointOfSale.Models
 
         [Required]
         [Column(TypeName = "decimal(18, 3)")]
-        public decimal Quantity { get; set; }
+        public decimal Amount { get; set; }
 
     }
 }

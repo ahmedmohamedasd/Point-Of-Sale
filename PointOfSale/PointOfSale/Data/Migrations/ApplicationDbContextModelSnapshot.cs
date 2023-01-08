@@ -349,14 +349,14 @@ namespace PointOfSale.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18, 3)");
+
                     b.Property<int?>("BarId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ContentId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(18, 3)");
 
                     b.HasKey("Id");
 
@@ -378,14 +378,46 @@ namespace PointOfSale.Data.Migrations
                     b.Property<DateTime>("DateOfOrder")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,3)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BarItemId");
 
                     b.ToTable("ExpiredStocks");
+                });
+
+            modelBuilder.Entity("PointOfSale.Models.OperationStock", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.Property<int>("BarItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CartOrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContentID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateOfOrder")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartOrderId");
+
+                    b.ToTable("OperationStocks");
                 });
 
             modelBuilder.Entity("PointOfSale.Models.OrdersStock", b =>
@@ -401,8 +433,8 @@ namespace PointOfSale.Data.Migrations
                     b.Property<DateTime>("DateOfOrder")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,3)");
 
                     b.HasKey("Id");
 
@@ -440,8 +472,8 @@ namespace PointOfSale.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,3)");
 
                     b.HasKey("Id");
 
@@ -575,6 +607,15 @@ namespace PointOfSale.Data.Migrations
                     b.HasOne("PointOfSale.Models.BarItem", "BarItem")
                         .WithMany()
                         .HasForeignKey("BarItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PointOfSale.Models.OperationStock", b =>
+                {
+                    b.HasOne("PointOfSale.Models.CartItem", "CartItems")
+                        .WithMany()
+                        .HasForeignKey("CartOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

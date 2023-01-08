@@ -23,13 +23,12 @@
         </div>
     </div>
 </form>
-
 <div class="row">
     <h3 class="col-9"> Statistics Last Orders </h3>
     <a class="btn btn-primary col-3 " asp-route-EndDate="@ViewBag.ReciptDate" asp-route-StartDate="@ViewBag.ReciptDate" asp-action="DailyReceipt"><i class="fa fa-tasks" aria-hidden="true"></i>Daily Receipt</a>
 </div>
 <br />
-<div class="card mb-4">
+<div class="card mb-4 box-shadow">
     <div class="card-header">
         <i class="fas fa-table me-1"></i>
         List of Items
@@ -38,7 +37,7 @@
         <table class="table" id="datatablesSimple">
             <thead>
                 <tr>
-                    <th> #Order </th>
+                    <th>#</th>
                     <th>
                         @Html.DisplayNameFor(model => model.ProductName)
                     </th>

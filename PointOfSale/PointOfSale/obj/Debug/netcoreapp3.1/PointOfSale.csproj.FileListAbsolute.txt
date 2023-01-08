@@ -666,3 +666,4 @@ E:\Track\Project\Point-Of-Sale\PointOfSale\PointOfSale\obj\Debug\netcoreapp3.1\P
 E:\Track\Project\Point-Of-Sale\PointOfSale\PointOfSale\obj\Debug\netcoreapp3.1\PointOfSale.dll
 E:\Track\Project\Point-Of-Sale\PointOfSale\PointOfSale\obj\Debug\netcoreapp3.1\PointOfSale.pdb
 E:\Track\Project\Point-Of-Sale\PointOfSale\PointOfSale\obj\Debug\netcoreapp3.1\PointOfSale.genruntimeconfig.cache
+E:\Track\Project\Point-Of-Sale\PointOfSale\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\OrdersStocks\ItemDetails.cshtml.g.cs
